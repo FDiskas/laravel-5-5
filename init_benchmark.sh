@@ -13,28 +13,10 @@ function clearCache() {
 
 function init() {
     local pwd=$(pwd)
-    local langEn="$pwd/vendor/phpbenchmarks/laravel/Resources/lang/en/phpbenchmarks.php"
-    local langEnGb="$pwd/vendor/phpbenchmarks/laravel/Resources/lang/en_GB/phpbenchmarks.php"
-    local langFrFr="$pwd/vendor/phpbenchmarks/laravel/Resources/lang/fr_FR/phpbenchmarks.php"
-
-    if [ -L "$pwd/resources/lang/en/phpbenchmarks.php" ]; then
-        rm "$pwd/resources/lang/en/phpbenchmarks.php"
-    fi
-    ln -s "$langEn" resources/lang/en
-
-    if [ -L "$pwd/resources/lang/en_GB/phpbenchmarks.php" ]; then
-        rm "$pwd/resources/lang/en_GB/phpbenchmarks.php"
-    fi
-    ln -s "$langEnGb" resources/lang/en_GB
-
-    if [ -L "$pwd/resources/lang/fr_FR/phpbenchmarks.php" ]; then
-        rm "$pwd/resources/lang/fr_FR/phpbenchmarks.php"
-    fi
-    ln -s "$langFrFr" resources/lang/fr_FR
-
-    clearCache
+    composer create-project "laravel/laravel=5.5" $pwd/tmp --prefer-dist ; rsync -a $pwd/tmp/ $pwd ; rm -rf $pwd/tmp
     composer install --no-dev --optimize-autoloader
     clearCache
+    php artisan key:generate
     php artisan config:cache
     php artisan route:cache
     php artisan optimize --force

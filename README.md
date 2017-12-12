@@ -32,25 +32,6 @@ Scores are too low ? Do not hesitate to create a pull request, and ask a new ben
 
 ## Installation
 
-Create _config/database.php_ :
-```php
-<?php
-return [
-    'fetch' => PDO::FETCH_CLASS,
-    'default' => env('DB_CONNECTION', 'mysql'),
-    'connections' => [
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'DBNAME'),
-            'username' => env('DB_USERNAME', 'USERNAME'),
-            'password' => env('DB_PASSWORD', 'PASSWORD'),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
-            'strict' => false,
-        ],
-    ],
-    'migrations' => 'migrations'
-];
+```bash
+source ./init_benchmark.sh; init
 ```
