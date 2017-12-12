@@ -13,9 +13,12 @@ function clearCache() {
 
 function init() {
     local pwd=$(pwd)
-    composer create-project "laravel/laravel=5.5" $pwd/tmp --prefer-dist ; rsync -a $pwd/tmp/ $pwd ; rm -rf $pwd/tmp
+    composer create-project "laravel/laravel=5.5" $pwd/tmp --prefer-dist ; rsync -a $pwd/tmp/ $pwd ; rm -rf $pwd/tmp &&
+    php -r "file_exists('.env') || copy('.env.example', '.env');" ;
+    php -r "putenv(\"APP_DEBUG=false\");" ;
     composer install --no-dev --optimize-autoloader
     clearCache
+    php artisan cache:table
     php artisan key:generate
     php artisan config:cache
     php artisan route:cache
